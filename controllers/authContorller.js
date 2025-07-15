@@ -143,7 +143,6 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   // 3- send it to user's email
   const resetURL = `${req.protocol}://${req.get('host')}/reset-password/?token=${resetToken}`;
   try {
-    // console.log(user);
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
       status: 'success',
@@ -164,7 +163,6 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
 export const resetPassword = catchAsync(async (req, res, next) => {
   // 1- find user by token
-  console.log(req.params.token);
   const hashedToken = crypto
     .createHash('sha256')
     .update(req.params.token)

@@ -108,7 +108,6 @@ if (passwordForm) {
 if (bookBtn) {
   bookBtn.addEventListener('click', (e) => {
     const { tourId } = e.target.dataset;
-    console.log(tourId);
     /*eslint-disable */
     const stripe = Stripe(
       'pk_test_51RjSkR2LKNiX0QHcNdHHoOfTdKPiOXxVopaPfyeIhliY50kmuUsi7YrCEiFybOhzTvKMEGW4P3OI05XvoKhcKBuf00CdTIZRHd',

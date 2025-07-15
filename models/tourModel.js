@@ -145,27 +145,12 @@ tourSchema.pre('save', function (next) {
 //   next();
 // });
 
-// tourSchema.post('save', function (doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
 // QUERY MIDDLEWARE
-tourSchema.pre(/^find/, function (next) {
-  this.find({ secret: { $ne: true } });
-  this.start = Date.now(); // create a start prop in the query obj
-  next();
-});
 tourSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'guides',
     select: '-__v -passwordChangedAt',
   });
-  next();
-});
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`query took ${Date.now() - this.start} mls`);
-  // console.log(docs);
   next();
 });
 
@@ -187,5 +172,6 @@ tourSchema.pre('findOneAndUpdate', function (next) {
 //   this.pipeline().unshift({ $match: { secret: { $ne: true } } });
 //   next();
 // });
+
 const Tour = mongoose.model('Tour', tourSchema);
 export default Tour;

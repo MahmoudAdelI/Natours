@@ -3,11 +3,7 @@ import showAlert from './alert.js';
 
 export const signup = async (data) => {
   try {
-    console.log(data);
-    const res = await axios.post(
-      'http://localhost:3000/api/v1/users/signup',
-      data,
-    );
+    const res = await axios.post('/api/v1/users/signup', data);
 
     if (res.data) {
       showAlert('success', 'Signed up successfully');
@@ -20,12 +16,9 @@ export const signup = async (data) => {
 
 export const forgotPassword = async (email) => {
   try {
-    const res = await axios.post(
-      'http://localhost:3000/api/v1/users/forgot-password',
-      {
-        email,
-      },
-    );
+    const res = await axios.post('/api/v1/users/forgot-password', {
+      email,
+    });
     if (res.data) {
       showAlert('success', 'Check your email');
       window.location.assign('/');
@@ -38,7 +31,7 @@ export const forgotPassword = async (email) => {
 export const resetPassword = async (data, token) => {
   try {
     const res = await axios.patch(
-      `http://localhost:3000/api/v1/users/reset-password/${token}`,
+      `/api/v1/users/reset-password/${token}`,
       data,
     );
     if (res.data) {
@@ -51,10 +44,7 @@ export const resetPassword = async (data, token) => {
 };
 export const login = async (data) => {
   try {
-    const res = await axios.post(
-      'http://localhost:3000/api/v1/users/login',
-      data,
-    );
+    const res = await axios.post('/api/v1/users/login', data);
     if (res.data) {
       showAlert('success', 'Logged In');
       window.location.assign('/');
@@ -65,7 +55,7 @@ export const login = async (data) => {
 };
 export const logout = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/v1/users/logout');
+    const res = await axios.get('/api/v1/users/logout');
     if (res.data) window.location.assign('/login');
   } catch (err) {
     showAlert('error', 'Error logging out, Try again!');

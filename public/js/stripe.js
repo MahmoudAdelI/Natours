@@ -12,12 +12,10 @@ import showAlert from './alert.js';
 */
 export const bookTour = async (tourId, stripe) => {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`,
-    );
+    const res = await axios.get(`/api/v1/bookings/checkout-session/${tourId}`);
     await stripe.redirectToCheckout({ sessionId: res.data.session.id });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     showAlert('error', err);
   }
 };

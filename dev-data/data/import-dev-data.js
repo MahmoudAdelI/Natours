@@ -1,6 +1,12 @@
-const fs = require('fs');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+import fs from 'fs';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import Tour from '../../models/tourModel.js';
+import User from '../../models/userModel.js';
+import Review from '../../models/reviewModel.js';
 
 dotenv.config({ path: './config.env' });
 const password = encodeURIComponent(process.env.DATABASE_PASSWORD); // because of special characters in password
@@ -9,15 +15,20 @@ const DB = process.env.DATABASE.replace('<PASSWORD>', password);
 mongoose.connect(DB).then(() => {
   console.log('DB connection successful');
 });
-const Tour = require('../../models/tourModel');
-const User = require('../../models/userModel');
-const Review = require('../../models/reviewModel');
+
+// Polyfill for __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Read JSON file
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
-const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
+const tours = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'tours.json'), 'utf-8'),
+);
+const users = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'users.json'), 'utf-8'),
+);
 const reviews = JSON.parse(
-  fs.readFileSync(`${__dirname}/reviews.json`, 'utf-8'),
+  fs.readFileSync(path.join(__dirname, 'reviews.json'), 'utf-8'),
 );
 
 // Import data into DB

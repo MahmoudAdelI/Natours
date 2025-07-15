@@ -56,16 +56,18 @@ reviewSchema.statics.calcAvgRating = async function (tourId) {
     ratingsQuantity: stats ? stats[0].numRatings : 0,
     ratingsAverage: stats ? stats[0].avgRating : 4.5,
   });
-  // console.log(stats);
 };
+
 reviewSchema.post('save', async function (doc, next) {
   // this.constructor refers to the Review model
   await this.constructor.calcAvgRating(this.tour);
   next();
 });
+
 // updating tour ratings after updating or deleting reviews
 reviewSchema.post(/^findOneAnd/, async function (doc, next) {
   await this.constructor.calcAvgRating(doc.tour);
 });
+
 const Review = mongoose.model('Review', reviewSchema);
 export default Review;
